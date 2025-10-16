@@ -2,59 +2,75 @@
 
 > [!NOTE]
 > This is still incomplete, and missing many things. See TODO section. Issues
-> are expected.
-
-## TODO
-
-Things that need to be implemented before automation.
-
-- Not started
-    - Proper animation handling
-    - GLB parser and converter using headless blender
-- Work in progress
-    - Model dumper using Asset Studio CLI
-- Finished
-    - CLI structure and app skeleton
+> are to be expected. Only tested on Fedora 42, may not work in other
+> enviornments.
 
 ## Prerequisites
 
 - [Dart SDK](https://dart.dev/get-dart#install)
 - [Asset Studio CLI](https://github.com/aelurum/AssetStudio/releases/latest)
-  - If installing not standalone version
-    [.NET Core 9 Runtime](https://dotnet.microsoft.com/download/dotnet/9.0/runtime)
+  - [.NET Core 9 Runtime](https://dotnet.microsoft.com/download/dotnet/9.0/runtime)
 - [Blender 4.5 LTS (Portable)](https://www.blender.org/download/lts/4-5/#versions)
 - Folder of Blue Archive JP game assets
 
-## Before starting
+You must perform the following steps:
 
-Make sure you perform the following steps:
+* Install **Dart SDK** and ensure it is in your `$PATH`.
+* Install **.NET Core 9 Runtime** if it is not yet installed.
+* Extract the **Asset Studio CLI** to the `AssetStudioCLI` folder.
+* Extract **Blender 4.5 LTS** to the `Blender` folder.
 
-1. Extract the **Asset Studio CLI** into a folder in the project directory named
-   `AssetStudioCLI`.
-1. Extract **Blender 4.5 LTS** into a folder in the project directory named
-   `Blender`
+## TODO
 
-## Extracting models
+Things that need to be implemented.
 
-### Usage
+- Not started
+    - [ ] GLB parser and converter using headless Blender
+- Work in progress
+    - [ ] Spine memorial lobby dumper
+    - [ ] Model dump with animations
+- Finished
+    - [X] CLI structure and app skeleton
+    - [X] Model dumper using Asset Studio CLI
 
-```ansi
-Usage: ba_wiki_asset_tool extract [arguments]
--h, --help                   Print this usage information.
--i, --input (mandatory)      Directory containing Blue Archive assets
--o, --output                 Directory to output models to
-                             (defaults to "./models")
--s, --batch-size             How many models to process at a time. If set too high, your device may hang, or run out of memory.
-                             (defaults to "50")
-    --[no-]debug-only-one    Only processes one model.
-```
+## Dumping assets
 
-### Examples
+### Models
+
+#### Usage
 
 ```bash
-dart run ./bin/ba_wiki_asset_tool.dart extract -i <path to blue archive dump>
+dart run ./bin/ba_wiki_asset_tool.dart help extract models
 ```
 
-## Processing models to turn to GLB
+#### Examples
+
+```bash
+dart run ./bin/ba_wiki_asset_tool.dart extract models -i <path to blue archive dump>
+```
+
+Dump Nozomi character only
+```bash
+dart run ./bin/ba_wiki_asset_tool.dart extract models -i <input> --character ch0243
+```
+
+### Spines
+
+> [!WARNING]
+> Not implemented
+
+#### Usage
+
+```bash
+dart run ./bin/ba_wiki_asset_tool.dart help extract spines
+```
+
+#### Examples
+
+```bash
+dart run ./bin/ba_wiki_asset_tool.dart extract spines -i <path to blue archive dump>
+```
+
+## Processing assets
 
 WIP, not implemented yet.

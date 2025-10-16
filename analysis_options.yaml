@@ -11,7 +11,15 @@
 # (the recommended set includes the core lints).
 # The core lints are also what is used by pub.dev for scoring packages.
 
-include: package:lints/recommended.yaml
+include: package:lintorium/analysis_options.yaml
+
+linter:
+  rules:
+    avoid_print: false
+    flutter_style_todos: false
+    always_put_control_body_on_new_line: false
+    omit_local_variable_types: false
+    omit_obvious_local_variable_types: false
 
 # Uncomment the following section to specify additional rules.
 

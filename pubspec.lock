@@ -145,6 +145,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.2"
+  lintorium:
+    dependency: "direct dev"
+    description:
+      name: lintorium
+      sha256: bc86e0309f77b160cf3aca19d897690663eeeeb2d57c0e3edb25e9e983bbc46a
+      url: "https://pub.dev"
+    source: hosted
+    version: "38.1.0"
   lints:
     dependency: "direct dev"
     description:
