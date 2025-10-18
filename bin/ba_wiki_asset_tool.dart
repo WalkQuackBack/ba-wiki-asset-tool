@@ -19,8 +19,7 @@ class AssetDumpCommand extends Command<void> {
       ..addOption(
         'output',
         abbr: 'o',
-        help: 'Directory to output models.',
-        defaultsTo: './models',
+        help: 'Directory to output assets to.',
       )
       ..addOption(
         'character',
@@ -58,7 +57,6 @@ class DumpModelsCommand extends AssetDumpCommand {
     if (input == null) return;
 
     final String? output = results.option('output');
-    if (output == null) return;
 
     final String? character = results.option('character');
     final int batchSize = int.parse(results.option('batch-size')!);
@@ -92,7 +90,6 @@ class DumpSpinesCommand extends AssetDumpCommand {
     if (input == null) return;
 
     final String? output = results.option('output');
-    if (output == null) return;
 
     final String? character = results.option('character');
     final int batchSize = int.parse(results.option('batch-size')!);

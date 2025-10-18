@@ -46,12 +46,12 @@ dart run ./bin/ba_wiki_asset_tool.dart help extract models
 #### Examples
 
 ```bash
-dart run ./bin/ba_wiki_asset_tool.dart extract models -i <path to blue archive dump>
+dart run ./bin/ba_wiki_asset_tool.dart extract models -i <input> -o <output>
 ```
 
 Dump Nozomi character only
 ```bash
-dart run ./bin/ba_wiki_asset_tool.dart extract models -i <input> --character ch0243
+dart run ./bin/ba_wiki_asset_tool.dart extract models -i <input> -o <output> --character ch0243
 ```
 
 ### Spines
@@ -68,7 +68,12 @@ dart run ./bin/ba_wiki_asset_tool.dart help extract spines
 #### Examples
 
 ```bash
-dart run ./bin/ba_wiki_asset_tool.dart extract spines -i <path to blue archive dump>
+dart run ./bin/ba_wiki_asset_tool.dart extract spines -i <input> -o <output>
+```
+
+Dump Nozomi character only
+```bash
+dart run ./bin/ba_wiki_asset_tool.dart extract spines -i <input> -o <output> --character ch0243
 ```
 
 ## Processing assets
