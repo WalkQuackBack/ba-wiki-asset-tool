@@ -6,6 +6,48 @@ import 'package:path/path.dart';
 
 final String assetStudioLocation = join('AssetStudioCLI', 'AssetStudioModCLI');
 
+// Output more information with verbose on
+Future<Map<String, List<String>>> groupAssetsToCharacters(
+  String input,
+  List<RegExp> regexps,
+) async {
+  final String assetBundlesPath = join(input, 'AssetBundles');
+  final Directory assetBundles = Directory(assetBundlesPath);
+
+  print('Indexing character asset bundles');
+
+  final Map<String, List<String>> characterAssetBundles = {};
+  try {
+    final Stream<FileSystemEntity> dirList = assetBundles.list();
+    await for (final FileSystemEntity f in dirList) {
+      if (f is! File) continue;
+      final String filename = basename(f.path);
+
+      Match? match = regexps.first.firstMatch(filename);
+      if (regexps.length > 1) {
+        for (final regexp in regexps.sublist(1)) {
+          match ??= regexp.firstMatch(filename);
+        }
+      }
+      if (match == null) continue;
+      if (match.groupCount < 1) continue;
+
+      final String? characterIdentifier = match.group(1);
+      if (characterIdentifier == null) continue;
+
+      characterAssetBundles
+          .putIfAbsent(characterIdentifier, () => [])
+          .add(f.path);
+    }
+
+    print('Finished indexing character asset bundles');
+  } on Exception catch (e) {
+    print(e);
+  }
+
+  return characterAssetBundles;
+}
+
 Future<void> dumpAssetBatch(
   String input,
   String output,

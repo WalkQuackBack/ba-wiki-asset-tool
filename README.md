@@ -15,23 +15,24 @@
 
 You must perform the following steps:
 
-* Install **Dart SDK** and ensure it is in your `$PATH`.
-* Install **.NET Core 9 Runtime** if it is not yet installed.
-* Extract the **Asset Studio CLI** to the `AssetStudioCLI` folder.
-* Extract **Blender 4.5 LTS** to the `Blender` folder.
+- Install **Dart SDK** and ensure it is in your `$PATH`.
+- Install **.NET Core 9 Runtime** if it is not yet installed.
+- Extract the **Asset Studio CLI** to the `AssetStudioCLI` folder.
+- Extract **Blender 4.5 LTS** to the `Blender` folder.
 
 ## TODO
 
 Things that need to be implemented.
 
 - Not started
-    - [ ] GLB parser and converter using headless Blender
+  - [ ] GLB parser and converter using headless Blender
 - Work in progress
-    - [ ] Spine memorial lobby dumper
-    - [ ] Model dump with animations
+  - [ ] Model dump with animations
 - Finished
-    - [X] CLI structure and app skeleton
-    - [X] Model dumper using Asset Studio CLI
+  - [x] Spine memorial lobby dumper
+  - [x] Spine character sprite dumper
+  - [x] CLI structure and app skeleton
+  - [x] Model dumper using Asset Studio CLI
 
 ## Dumping assets
 
@@ -45,19 +46,22 @@ dart run ./bin/ba_wiki_asset_tool.dart help extract models
 
 #### Examples
 
+Dump chibi models for all characters
+
 ```bash
-dart run ./bin/ba_wiki_asset_tool.dart extract models -i <input> -o <output>
+dart run ./bin/ba_wiki_asset_tool.dart extract models -i <input>
 ```
 
 Dump Nozomi character only
+
 ```bash
-dart run ./bin/ba_wiki_asset_tool.dart extract models -i <input> -o <output> --character ch0243
+dart run ./bin/ba_wiki_asset_tool.dart extract models -i <input> --character ch0243
 ```
 
 ### Spines
 
-> [!WARNING]
-> Not implemented
+Under the output folder, there will be a `characters/` and `lobbies/` folder.
+Characters is the character sprites, lobbies is the memorial lobbies.
 
 #### Usage
 
@@ -67,11 +71,14 @@ dart run ./bin/ba_wiki_asset_tool.dart help extract spines
 
 #### Examples
 
+Dump spines for all characters
+
 ```bash
-dart run ./bin/ba_wiki_asset_tool.dart extract spines -i <input> -o <output>
+dart run ./bin/ba_wiki_asset_tool.dart extract spines -i <input>
 ```
 
 Dump Nozomi character only
+
 ```bash
 dart run ./bin/ba_wiki_asset_tool.dart extract spines -i <input> -o <output> --character ch0243
 ```
