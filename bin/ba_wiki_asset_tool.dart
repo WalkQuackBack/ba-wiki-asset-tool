@@ -16,21 +16,12 @@ class AssetDumpCommand extends Command<void> {
         help: 'Directory containing Blue Archive JP assets.',
         mandatory: true,
       )
-      ..addOption(
-        'output',
-        abbr: 'o',
-        help: 'Directory to output assets to.',
-      )
-      ..addOption(
-        'character',
-        abbr: 'c',
-        help: 'Character to dump.',
-      )
+      ..addOption('output', abbr: 'o', help: 'Directory to output assets to.')
+      ..addOption('character', abbr: 'c', help: 'Character to dump.')
       ..addOption(
         'batch-size',
         abbr: 's',
-        help:
-            'How many assets to process at a time.',
+        help: 'How many assets to process at a time.',
         defaultsTo: '50',
       );
   }
@@ -78,7 +69,8 @@ class DumpSpinesCommand extends AssetDumpCommand {
   @override
   final name = 'spines';
   @override
-  final description = 'Dump Spine animation files from an asset folder. (NOT IMPLEMENTED)';
+  final description =
+      'Dump Spine animation files from an asset folder. (NOT IMPLEMENTED)';
 
   @override
   // TODO: Do not have duplication with DumpModels
@@ -106,7 +98,6 @@ class DumpSpinesCommand extends AssetDumpCommand {
 }
 
 class ExtractCommand extends Command<void> {
-
   ExtractCommand() {
     addSubcommand(DumpModelsCommand());
     addSubcommand(DumpSpinesCommand());

@@ -91,14 +91,18 @@ Future<void> dumpAssets({
   required List<String> assetStudioParams,
   String? character,
   int batchSize = 30,
-  bool putAsSubdirectory = false
+  bool putAsSubdirectory = false,
 }) async {
   final Map<String, List<String>> characterGroupIndex =
       await groupAssetsToCharacters(input, assetRegexList);
 
   Future<void> handleDumpCharacter(String character) async {
     final characterAssets = characterGroupIndex[character];
-    if (characterAssets == null) throw const FormatException('Assets do not exist for this character in this category');
+    if (characterAssets == null) {
+      throw const FormatException(
+        'Assets do not exist for this character in this category',
+      );
+    }
 
     if (putAsSubdirectory) {
       // TODO: Implement this code path
@@ -120,9 +124,7 @@ Future<void> dumpAssets({
     final int total = characterGroupIndex.length;
 
     for (final String character in characterGroupIndex.keys) {
-      currentJobs.add(
-        handleDumpCharacter(character)
-      );
+      currentJobs.add(handleDumpCharacter(character));
       currentCharacters.add(character);
 
       i++;

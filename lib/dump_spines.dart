@@ -14,7 +14,7 @@ const List<String> assetStudioParams = [
   '-g',
   'none',
   '-t',
-  'tex2d,textAsset'
+  'tex2d,textAsset',
 ];
 
 Future<void> dumpSpines({
