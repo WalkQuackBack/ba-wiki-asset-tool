@@ -14,7 +14,7 @@ Future<Map<String, List<String>>> groupAssetsToCharacters(
   final String assetBundlesPath = join(input, 'AssetBundles');
   final Directory assetBundles = Directory(assetBundlesPath);
 
-  print('Indexing character asset bundles');
+  if (config.verbose) print('Starting index of character asset bundles');
 
   final Map<String, List<String>> characterAssetBundles = {};
   try {
@@ -24,7 +24,7 @@ Future<Map<String, List<String>>> groupAssetsToCharacters(
       final String filename = basename(f.path);
 
       Match? match = regexps.first.firstMatch(filename);
-      if (regexps.length > 1) {
+      if (match == null && regexps.length > 1) {
         for (final regexp in regexps.sublist(1)) {
           match ??= regexp.firstMatch(filename);
         }
@@ -40,7 +40,7 @@ Future<Map<String, List<String>>> groupAssetsToCharacters(
           .add(f.path);
     }
 
-    print('Finished indexing character asset bundles');
+    if (config.verbose) print('Finished indexing character asset bundles');
   } on Exception catch (e) {
     print(e);
   }
@@ -48,7 +48,7 @@ Future<Map<String, List<String>>> groupAssetsToCharacters(
   return characterAssetBundles;
 }
 
-Future<void> dumpAssetBatch(
+Future<void> runAssetStudio(
   String input,
   String output,
   List<String> parameters,
@@ -59,7 +59,13 @@ Future<void> dumpAssetBatch(
       assetStudioLocation,
       [input] +
           parameters +
-          ['--log-level', if (config.verbose) 'info' else 'error', '-r', '-o'] +
+          [
+            '--decompress-to-disk',
+            '--log-level',
+            if (config.verbose) 'info' else 'error',
+            '-r',
+            '-o',
+          ] +
           [output],
     );
 
@@ -81,26 +87,43 @@ Future<void> dumpAssetBatch(
 Future<void> dumpAssets({
   required String input,
   required String output,
-  required Map<String, List<String>> characterGroups,
+  required List<RegExp> assetRegexList,
   required List<String> assetStudioParams,
   String? character,
   int batchSize = 30,
+  bool putAsSubdirectory = false
 }) async {
-  // Code paths
-  // TODO: Output more information with verbose on
+  final Map<String, List<String>> characterGroupIndex =
+      await groupAssetsToCharacters(input, assetRegexList);
+
+  Future<void> handleDumpCharacter(String character) async {
+    final characterAssets = characterGroupIndex[character];
+    if (characterAssets == null) throw const FormatException('Assets do not exist for this character in this category');
+
+    if (putAsSubdirectory) {
+      // TODO: Implement this code path
+      throw UnimplementedError();
+    } else {
+      await runAssetStudio(
+        characterAssets.join(';'),
+        join(output, character),
+        assetStudioParams,
+      );
+    }
+  }
+
   Future<void> bulkDumpAssets() async {
     List<Future<void>> currentJobs = [];
     List<String> currentCharacters = [];
 
     int i = 0;
-    final int total = characterGroups.length;
+    final int total = characterGroupIndex.length;
 
-    for (final String key in characterGroups.keys) {
-      final List<String> value = characterGroups[key]!;
+    for (final String character in characterGroupIndex.keys) {
       currentJobs.add(
-        dumpAssetBatch(value.join(';'), join(output, key), assetStudioParams),
+        handleDumpCharacter(character)
       );
-      currentCharacters.add(key);
+      currentCharacters.add(character);
 
       i++;
 
@@ -117,17 +140,8 @@ Future<void> dumpAssets({
     }
   }
 
-  Future<void> handleDumpCharacter(String character) async {
-    print('Dumping assets for character $character');
-    await dumpAssetBatch(
-      characterGroups[character]!.join(';'),
-      join(output, character),
-      assetStudioParams,
-    );
-  }
-
-  // Main logic
   if (character != null) {
+    print('Dumping assets for character $character');
     await handleDumpCharacter(character);
     return;
   }

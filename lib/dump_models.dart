@@ -21,16 +21,11 @@ Future<void> dumpModels({
   String? character,
   int batchSize = 30,
 }) async {
-  final Map<String, List<String>> characterGroups =
-      await groupAssetsToCharacters(input, [
-        chibiAssetMatchRegex,
-        chibiMxloadAnimAssetMatchRegex,
-      ]);
   await dumpAssets(
     input: input,
     output: output ?? './models',
     character: character,
-    characterGroups: characterGroups,
+    assetRegexList: [chibiAssetMatchRegex],
     assetStudioParams: assetStudioParams,
   );
 }

@@ -4,10 +4,7 @@ import 'package:path/path.dart';
 final RegExp spineCharactersMatchRegex = RegExp(
   'assets-_mx-(?:spinecharacters)-(?!.*mxcommon.*)(.+?)_spr-_mxdependency-',
 );
-final RegExp spineLobbiesHomeMatchRegex = RegExp(
-  'assets-_mx-(?:spinelobbies)-(?!.*mxcommon.*)(.+?)_home-_mxdependency-',
-);
-final RegExp spineLobbiesBgMatchRegex = RegExp(
+final RegExp spineLobbiesMatchRegex = RegExp(
   'assets-_mx-(?:spinelobbies)-(?!.*mxcommon.*)(.+?)_home-_mxdependency-',
 );
 
@@ -27,27 +24,19 @@ Future<void> dumpSpines({
   int batchSize = 30,
 }) async {
   print('Dumping character spines');
-  final Map<String, List<String>> characterSpineGroups =
-      await groupAssetsToCharacters(input, [
-        spineCharactersMatchRegex
-      ]);
   await dumpAssets(
     input: input,
     output: join(output ?? './spines', 'character'),
     character: character,
-    characterGroups: characterSpineGroups,
+    assetRegexList: [spineCharactersMatchRegex],
     assetStudioParams: assetStudioParams,
   );
   print('Dumping lobby spines');
-  final Map<String, List<String>> characterLobbyGroups =
-      await groupAssetsToCharacters(input, [
-        spineLobbiesHomeMatchRegex
-      ]);
   await dumpAssets(
     input: input,
     output: join(output ?? './spines', 'lobbies'),
     character: character,
-    characterGroups: characterLobbyGroups,
+    assetRegexList: [spineLobbiesMatchRegex],
     assetStudioParams: assetStudioParams,
   );
 }
